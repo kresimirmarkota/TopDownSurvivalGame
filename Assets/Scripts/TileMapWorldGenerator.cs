@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -5,8 +6,12 @@ using UnityEngine.Tilemaps;
 public class TileMapWorldGenerator : MonoBehaviour
 {
     public TileBase grassTile, WaterTile, groundTile, forestTile;
-    private Tilemap tilemap;
+    public Tilemap tilemap;
     private int[,] squareMap;
+
+
+    public delegate void OnMapGenerated();
+    public event OnMapGenerated MapGenerated;
 
     public int width = 50;
     public int height = 50;
@@ -15,11 +20,35 @@ public class TileMapWorldGenerator : MonoBehaviour
     {
         tilemap = GetComponent<Tilemap>();
        
-        
        makeSquareMap();
+
+       // CollectTilePositions(tilemap);
+        
     }
 
-   void makeSquareMap()
+    void CollectTilePositions(Tilemap tilemap)
+    {
+        BoundsInt bounds = tilemap.cellBounds;
+
+        for (int x = bounds.xMin; x < bounds.xMax; x++)
+        {
+            for (int y = bounds.yMin; y < bounds.yMax; y++)
+            {
+                Vector3Int currentPos = new Vector3Int(x, y, 0);
+                TileBase tile = tilemap.GetTile(currentPos);
+
+                if (tile != null)
+                {
+                    Debug.Log("Tile found at position: " + currentPos + " Tile: " + tile.name);
+                }
+                else
+                {
+                    Debug.Log("Tile not found");
+                }
+            }
+        }
+    }
+    void makeSquareMap()
     {
         for (int x = 0; x < width; x++)
         {
@@ -41,6 +70,7 @@ public class TileMapWorldGenerator : MonoBehaviour
                 }
             }
         }
+        MapGenerated?.Invoke();
     }
 }
    

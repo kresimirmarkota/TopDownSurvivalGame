@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -224,9 +225,9 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 34
-  orthographic: 1
-  orthographic size: 30
+  field of view: 105
+  orthographic: 0
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -277,6 +278,22 @@ MonoBehaviour:
   minY: 20
   maxY: 120
   rotationSpeed: 100
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2a788104aff9d84080ae72246f638cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraMovement
+  movementSpeed: 1
+  movementTime: 4
+  playerStartingPosition: {fileID: 1980678016}
+  newPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,7 +521,7 @@ MonoBehaviour:
   WaterTile: {fileID: 11400000, guid: 84db11914eff13442aa68929485fd99f, type: 2}
   groundTile: {fileID: 11400000, guid: ddf6ce19959a2b344980c2a895cd653e, type: 2}
   forestTile: {fileID: 11400000, guid: 32cbc3e24e9b8ec4395c0a5aaa4bb13b, type: 2}
-  tilemap: {fileID: 0}
+  tilemap: {fileID: 1459006015}
   width: 50
   height: 50
   noiseScale: 0.1
@@ -663,6 +680,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
-  - {fileID: 619394802}
   - {fileID: 1522616169}
+  - {fileID: 619394802}
   - {fileID: 1980678016}

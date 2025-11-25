@@ -1,4 +1,4 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private Bounds bounds;
     List<Vector3Int> allTilePositions;
     List<TileBase> tileBases;
+    Vector3 cellCenter;
 
     private Vector3 targetPosition;
     private bool moving = false;
@@ -24,9 +25,9 @@ public class PlayerMovement : MonoBehaviour
     {
         tileMap = GameObject.Find("Map").GetComponent<Tilemap>();
         allTilePositions = new List<Vector3Int>();
+        transform.SetParent(tileMap.transform);
 
-
-        print(allTilePositions);
+      
         transform.position = new Vector3(2, 2, 0);
     }
 
@@ -44,10 +45,12 @@ public class PlayerMovement : MonoBehaviour
     {
         tileMap = mapGenerator.tilemap;
         CollectTilePositions(tileMap);
+       
     }
     private void Update()
     {
         playerMovement();
+       
     }
 
     void CollectTilePositions(Tilemap tilemap)
@@ -76,21 +79,21 @@ public class PlayerMovement : MonoBehaviour
     }
     void playerMovement()
     {
-        if (Input.GetMouseButtonDown(0)) // levi klik mi�a
+        if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mouseWorldPos.z = 0;
-            Vector3Int cellPos = tileMap.WorldToCell(mouseWorldPos);
-            targetPosition = tileMap.GetCellCenterWorld(cellPos);
-            targetPosition.z = 0;
-            moving = true;
+            Vector3Int cell = tileMap.WorldToCell(mouseWorldPos);
+            cellCenter = tileMap.GetCellCenterWorld(cell);
+
+            // Pomiče objekat na centar pločice
+           
+            
+            Debug.Log("mouse to worldpos "+mouseWorldPos);
+            Debug.Log("cell "+cell);
+            Debug.Log("Cellpos "+ cellCenter);
         }
 
-        
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, 10 * Time.deltaTime);
-          
-        
-
+        transform.position = Vector3.MoveTowards(transform.position, cellCenter, 0.1f);
     }
 }
 
